@@ -1,0 +1,34 @@
+:root {
+    --color-g-white: #ffffff;
+    --color-g-white-004: rgba(255, 255, 255, 0.04);
+    --color-g-white-02: rgba(255, 255, 255, 0.2);
+
+    --color-g-black: #070A15;
+    --color-g-dark: #101521;
+    --color-g-dark-05: rgba(17, 22, 34, .5);
+
+    --gradient-g-yellow: linear-gradient(135deg, #F2A000 0%, #FCC254 100%); 
+    --gradient-g-purple: linear-gradient(135deg, #72257E 0%, #CD99DF 100%); 
+    --gradient-g-blue: linear-gradient(135deg, #25257E 0%, #9C99DF 100%);  
+    --gradient-g-green: linear-gradient(135deg, #01CB7A 0%, #00F3A3 100%); 
+    --gradient-g-red: linear-gradient(135deg, #FA4F58 0%, #FF7F8C 100%); 
+}
+
+$color-g-white: var(--color-g-white, #f8f8f8);
+$color-g-white-004: var(--color-g-white-004, rgba(255, 255, 255, 0.04));
+$color-g-white-02: var(--color-g-white-02, rgba(255, 255, 255, 0.4));
+
+$color-g-black: var(--color-g-black, #070A15);
+$color-g-dark: var(--color-g-dark, #101521);
+$color-g-dark-05: var(--color-g-dark, rgba(17, 22, 34, .5));
+
+$gradient-g-yellow: var(--gradient-g-yellow, linear-gradient(135deg, #F2A000 0%, #FCC254 100%));
+$gradient-g-purple: var(--gradient-g-purple, linear-gradient(135deg, #72257E 0%, #CD99DF 100%));
+$gradient-g-blue: var(--gradient-g-blue, linear-gradient(135deg, #25257E 0%, #9C99DF 100%));
+$gradient-g-green: var(--gradient-g-green, linear-gradient(135deg, #01CB7A 0%, #00F3A3 100%));
+$gradient-g-red: var(--gradient-g-red, linear-gradient(135deg, #FA4F58 0%, #FF7F8C 100%));
+
+@mixin mix-default-item {
+    background-color: $color-g-dark;
+    border: 1px solid $color-g-white-004;
+}

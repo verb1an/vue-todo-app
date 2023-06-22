@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+@font-face {
+    font-family: "vue-todo";
+    src: url("@/assets/icons/fonts/vue-todo.eot?w3gj9e");
+    src: url("@/assets/icons/fonts/vue-todo.eot?w3gj9e#iefix") format("embedded-opentype"),
+        url("@/assets/icons/fonts/vue-todo.ttf?w3gj9e") format("truetype"),
+        url("@/assets/icons/fonts/vue-todo.woff?w3gj9e") format("woff"),
+        url("@/assets/icons/fonts/vue-todo.svg?w3gj9e#vue-todo") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+span[class^="i"],
+span[class*=" i"] {
+    font-family: "vue-todo" !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.i-ellipsis-v:before {
+    content: "\e900";
+}
+.i-expand-from-corner:before {
+    content: "\e901";
+}
+.i-favorite:before {
+    content: "\e902";
+}
+.i-file:before {
+    content: "\e903";
+}
+.i-layer-group:before {
+    content: "\e904";
+}
+.i-list-ul:before {
+    content: "\e905";
+}
+.i-lock:before {
+    content: "\e906";
+}
+.i-more-vertical-alt:before {
+    content: "\e907";
+}
+.i-square-shape:before {
+    content: "\e908";
+}
+.i-times:before {
+    content: "\e909";
+}
+.i-trash-alt:before {
+    content: "\e90a";
+}
+.i-plus:before {
+    content: "\e90b";
+}
+.i-check:before {
+    content: "\e90c";
+}
+.i-search:before {
+    content: "\e90f";
+}
+.i-file-empty:before {
+    content: "\e924";
+}
+.i-pushpin:before {
+    content: "\e946";
+}
+.i-bookmark:before {
+    content: "\e9d2";
+}
