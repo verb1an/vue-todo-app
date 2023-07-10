@@ -1,0 +1,104 @@
+@use "@/assets/scss/fonts";
+@use "@/assets/scss/null";
+@use "@/assets/scss/vars";
+
+html {
+    font-family: "Montserrat", "Arial", "sans-serif";
+}
+
+.main {
+    background-color: vars.$color-g-black;
+    width: 100%;
+    min-height: 100vh;
+
+    .wrapper {
+        position: relative;
+        height: 100vh;
+        overflow-x: hidden;
+    }
+
+    
+
+    .items__none {
+        position: absolute;
+        z-index: 200;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: vars.$color-g-white;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h3 {
+            font-size: 18px;
+            font-weight: 400;
+            opacity: 0.5;
+            margin-bottom: 15px;
+        }
+
+        button.items__none_button {
+            color: vars.$color-g-white;
+            padding: 10px 20px;
+            border: 1px solid vars.$color-g-white-02;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+
+            span:first-child {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .textAreaHeightResize {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #fff;
+        min-width: 100px;
+        z-index: 100;
+        line-height: 18px;
+
+        visibility: hidden;
+        pointer-events: 0;
+        z-index: -1;
+    }
+
+    .todo__arrow {
+        position: absolute;
+        background-color: red;
+        height: 10px;
+        top: 50%;
+        isolation: isolate;
+        z-index: 0;
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 2px;
+            background-color: vars.$color-g-white;
+            z-index: 1;
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 100%;
+                width: 10px;
+                height: 10px;
+                background-color: vars.$color-g-white;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+
+    button {
+        border: 0;
+        background-color: transparent;
+        outline: none;
+        cursor: pointer;
+    }
+}

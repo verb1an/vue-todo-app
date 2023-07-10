@@ -1,21 +1,24 @@
 <template>
     <div class="todo__items_list">
         <div
-            v-for="todoItem in content"
-            :key="todoItem.id"
-            :text-todo-id="todoItem.id"
-            :data-status="todoItem.status"
-            @keydown="addNewItem"
+            v-for="checkItem in content"
+            :key="checkItem.id"
+            :text-todo-id="checkItem.id"
+            :data-status="checkItem.status"
+            @keydown="setKeyListeneres"
             class="list__item"
         >
-            <span class="i-check" @click="changeStatus"></span>
+            <span
+                class="i-check"
+                @click="$emit('item:changeStatus', checkItem.id)"
+            ></span>
             <app-todo-text
-                v-model="todoItem.text"
+                v-model="checkItem.text"
                 class="todo__input"
-                :focus="todoItem.focus"
-                :status="todoItem.status"
-                @input:blur="removeFocus"
+                :focus="checkItem.focus"
+                :status="checkItem.status"
                 style="cols: 18"
+                @input:blur="$emit('input:blur')"
             />
         </div>
     </div>
@@ -30,56 +33,41 @@ export default {
 <script setup>
 import { defineProps, defineEmits } from "vue";
 
-const props = defineProps({
+defineProps({
     content: { type: Array, required: true },
-    itemId: { type: Number, required: true },
-    listCount: { type: Number, required: true },
 });
 
-const emit = defineEmits(["todo:changeStatus", "todo:addItem", "todo:removeItem", "input:blur"]);
+const emit = defineEmits([
+    "item:changeStatus",
+    "item:addCheckItem",
+    "item:removeCheckItem",
+    "input:blur",
+]);
 
-function changeStatus(event) {
-    emit("todo:changeStatus", {
-        itemId: props.itemId,
-        listCount: props.listCount,
-        todoId: Number(event.target.closest(".list__item").getAttribute("text-todo-id")),
-    });
-}
-
-function addNewItem(event) {
-    if (event.keyCode === 13) {
-        if (event.target.selectionStart < event.target.value.length) return;
-
-        event.preventDefault();
-        emit("todo:addItem", {
-            itemId: props.itemId,
-            listCount: props.listCount,
-            todoId: Number(event.target.closest(".list__item").getAttribute("text-todo-id")),
-        });
-    } else if (event.keyCode === 8 && event.target.value == "") {
-        event.preventDefault();
-        // <!-- ? Set focus on previous element -->
-        const targetItem = event.target.closest(".list__item");
-
-        if (targetItem.previousSibling.tagName) {
+function setKeyListeneres(event) {
+    switch (event.keyCode) {
+        case 13:
+            if (event.target.selectionStart < event.target.value.length) return;
             event.preventDefault();
-            targetItem.previousSibling.querySelector("textarea").focus();
-        }
-
-        emit("todo:removeItem", {
-            itemId: props.itemId,
-            listCount: props.listCount,
-            todoId: Number(targetItem.getAttribute("text-todo-id")),
-        });
+            emit(
+                "item:addCheckItem",
+                event.target.closest(".list__item").getAttribute("text-todo-id")
+            );
+            break;
+        case 8:
+            if (!event.target.value == "") break;
+            event.preventDefault();
+            if (event.target.closest(".list__item").previousSibling.tagName)
+                event.target
+                    .closest(".list__item")
+                    .previousSibling.querySelector("textarea")
+                    .focus();
+            emit(
+                "item:removeCheckItem",
+                event.target.closest(".list__item").getAttribute("text-todo-id")
+            );
+            break;
     }
-}
-
-function removeFocus(target) {
-    emit("input:blur", {
-        itemId: props.itemId,
-        listCount: props.listCount,
-        todoId: Number(target.closest(".list__item").getAttribute("text-todo-id")),
-    });
 }
 </script>
 

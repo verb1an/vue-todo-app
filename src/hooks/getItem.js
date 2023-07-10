@@ -1,5 +1,5 @@
 export function getItemInDataById(array, id) {
-    return array.find((el) => el.id == id )
+    return array.find((el) => el.id == id);
 }
 
 export function getItemInDocById(id) {

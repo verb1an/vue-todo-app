@@ -3,24 +3,25 @@
         <div class="list all">
             <h3 class="title">
                 <span>All</span>
-                <app-button-icon class="button__add_item" @click="$emit('item:add')">
+                <app-button-icon
+                    class="button__add_item"
+                    @click="$emit('item:add')"
+                >
                     <span class="i-plus"></span>
                 </app-button-icon>
             </h3>
             <ul>
                 <li
                     v-for="item in items"
-                    :key="item.id"
-                    @mouseenter="onHover"
-                    @mouseleave="onBlur"
-                    @mousedown="setActive"
-                    @click.stop
-                    @dblclick="focusedInput"
-                    :item-id="item.id"
+                    :key="item.val.id"
+                    :item-id="item.val.id"
                 >
                     <span class="i-square-shape"></span>
                     <span>
-                        <app-todo-input v-model="item.title" class="default" />
+                        <app-todo-input
+                            v-model="item.val.title"
+                            class="default"
+                        />
                     </span>
                 </li>
             </ul>
@@ -39,25 +40,7 @@ import { defineProps, defineEmits } from "vue";
 defineProps({
     items: { type: Array, required: true },
 });
-const emit = defineEmits(["item:hover", "item:blur"]);
-function onHover(event) {
-    emit("item:hover", event.target.getAttribute("item-id"));
-}
-function onBlur() {
-    emit("item:blur");
-}
-
-function setActive(event) {
-    document.querySelectorAll(".items__list .list li").forEach((el) => el.classList.remove("active"));
-    event.target.closest("li").classList.add("active");
-}
-
-function focusedInput(event) {
-    const target = event.target.querySelector(".component.input input")
-    target.focus();
-    target.select();
-    target.classList.add("focused-bdline")
-}
+defineEmits(["item:add", "item:blur"]);
 </script>
 
 <style lang="scss" scoped>

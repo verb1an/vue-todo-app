@@ -1,5 +1,5 @@
 <template>
-    <div class="component input" v-bind="$attr">
+    <div class="component input" v-bind="$attrs">
         <input
             type="text"
             class="input__item"
@@ -34,12 +34,11 @@ function returnValue(event) {
 
 function removeFocusedClasses(event) {
     event.target.classList.forEach((el, index) => {
-        if(el.includes("focused")) {
-            event.target.classList.remove(el)
+        if (el.includes("focused")) {
+            event.target.classList.remove(el);
         }
     });
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -75,7 +74,7 @@ function removeFocusedClasses(event) {
     }
 
     input.focused-bdline {
-        border: 1px solid rgba(255, 255, 255, .4);
+        border: 1px solid rgba(255, 255, 255, 0.4);
     }
 }
 </style>
