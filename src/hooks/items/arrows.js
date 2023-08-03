@@ -1,9 +1,9 @@
 import { reactive, ref } from "vue";
 import { getItemInDocById } from "../getItem";
 
-export function useArrows(arrows = []) {
+export function useArrows(areaID, arrows = []) {
     const list = reactive([]);
-    const area = ref(null);
+    const area = ref(areaID);
     const arrowMode = ref(false);
 
     arrows.forEach((el) => {
@@ -20,14 +20,25 @@ export function useArrows(arrows = []) {
             }
         });
 
-        if (stop) return; // ? Stop if we find doubled
+        // ? Stop if we find doubled
+        if (stop) {
+            init("area");
+            return;
+        }
 
+        const newID = Math.random() * 1000;
         list.push({
-            id: Math.random() * 1000,
+            id: newID,
             firstItem: items.firstItem,
             secondItem: items.secondItem,
             points: [],
         });
+
+        init("area");
+    };
+
+    const removeArrow = (id) => {
+        console.log(id);
     };
 
     const setArrow = (firstItem) => {
@@ -40,12 +51,50 @@ export function useArrows(arrows = []) {
         mouseMovelisterenerSetArrow(firstItemOffset);
     };
 
-    const removeArrow = (id) => {
-        console.log(id);
+    const pushArrow = (arrow) => {
+        console.log(arrow);
+        const firstItemOffset = getItemInDocById(arrow.firstItem).getBoundingClientRect();
+        const secondItemOffset = getItemInDocById(arrow.secondItem).getBoundingClientRect();
+        const offsets = getItemsOffset(firstItemOffset, secondItemOffset);
+
+        drawArrow(
+            arrow.id,
+            firstItemOffset.left + offsets.firstXOffset,
+            firstItemOffset.top + offsets.firstYOffset,
+            secondItemOffset.left + offsets.secondXOffset,
+            secondItemOffset.top + offsets.secondYOffset
+        );
     };
 
-    const clearArea = () => {
-        area.value.innerHTML = "";
+    const getItemsOffset = (firstItemOffset, secondItemOffset) => {
+        let firstXOffset = firstItemOffset.width / 2;
+        let firstYOffset = firstItemOffset.height / 2;
+        let secondXOffset = secondItemOffset.width / 2;
+        let secondYOffset = secondItemOffset.height / 2;
+
+        if (firstItemOffset.bottom < secondItemOffset.top) {
+            // ? First item on top
+            firstYOffset = firstItemOffset.height;
+            secondYOffset = 0;
+        } else if (firstItemOffset.top > secondItemOffset.bottom) {
+            // ? Second item on top
+            firstYOffset = 0;
+            secondYOffset = secondItemOffset.height;
+        } else {
+            // ? Both items same horizontal position
+            if (firstItemOffset.right < secondItemOffset.left) {
+                firstXOffset = firstItemOffset.width;
+                secondXOffset = 0;
+            } else if (firstItemOffset.left > secondItemOffset.right) {
+                firstXOffset = 0;
+                secondXOffset = secondItemOffset.width;
+            } else {
+                firstYOffset = 0;
+                secondYOffset = 0;
+            }
+        }
+
+        return { firstXOffset, firstYOffset, secondXOffset, secondYOffset };
     };
 
     const drawArrow = (id, x1, y1, x2, y2) => {
@@ -61,20 +110,10 @@ export function useArrows(arrows = []) {
         }
 
         area.value.innerHTML += `
-            <g arrow-id='0' class="arrow__line">
-               <defs>
-                   <marker id="arrowhead" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto" fill="#fff">
-                       <polygon points="0 0, 5 2, 0 4" />
-                   </marker>
-               </defs>
-               <line class="line__main" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke-width="3" stroke="#fff" marker-end="url(#arrowhead)" />
+            <g arrow-id='${id}' class="arrow__line">
+               <line class="line__main" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke-width="3" marker-end="url(#arrowhead)" />
            </g>
         `;
-    };
-
-    const init = (areaID) => {
-        area.value = document.getElementById(areaID);
-        clearArea();
     };
 
     const mouseMovelisterenerSetArrow = (firstItemOffset) => {
@@ -114,6 +153,9 @@ export function useArrows(arrows = []) {
 
     const completeSetArrow = (firstItem) => {
         let handler = function (event) {
+            arrowMode.value = false;
+            clearArea();
+
             if (
                 (event.target.closest(".todo__item") &&
                     event.target.closest(".todo__item").getAttribute("todo-id") == firstItem.getAttribute("todo-id")) ||
@@ -130,15 +172,22 @@ export function useArrows(arrows = []) {
             }
 
             document.removeEventListener("mousedown", handler, false);
-            removeSetterArrows();
         };
 
         return handler;
     };
 
-    const removeSetterArrows = () => {
-        arrowMode.value = false;
+    const clearArea = () => {
+        area.value.innerHTML = "";
+    };
+
+    const init = (areaID) => {
+        area.value = document.getElementById(areaID);
         clearArea();
+
+        list.forEach((el) => {
+            pushArrow(el);
+        });
     };
 
     return {
@@ -148,7 +197,7 @@ export function useArrows(arrows = []) {
         addNewArrow,
         removeArrow,
         setArrow,
-        removeSetterArrows,
+        pushArrow,
 
         init,
     };

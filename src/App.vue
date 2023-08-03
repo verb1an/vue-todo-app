@@ -94,6 +94,7 @@ const todoList = useTodoItemList([
         },
         menuToggle: false,
         lock: false,
+        arrows: [],
     },
     {
         id: Math.random() * 1000,
@@ -115,6 +116,7 @@ const todoList = useTodoItemList([
         },
         menuToggle: false,
         lock: false,
+        arrows: [],
     },
 ]);
 const arrows = useArrows([]);
@@ -122,13 +124,6 @@ const arrows = useArrows([]);
 const successItem = useModalSuccess({});
 
 let dragObject = useDragObject(null);
-// let arrowMode = ref(false);
-// let arrowModeItems = ref({
-//     firstItem: null,
-//     secondItem: null,
-// });
-// let arrowObject = ref(null);
-
 // <!-- ? item movement -->
 
 const mouseX = ref(0);
@@ -157,14 +152,15 @@ function mouseMove(event) {
         } else {
             item.setItemPos(xPos, null);
         }
-    }
 
-    // if (arrowMode.value === true) {
-    //     document.querySelector(".arrowModeSecondItem").style = `position: absolute; width: 2px; height: 2px;top: ${
-    //         mouseY.value - 5
-    //     }px; left: ${mouseX.value - 5}px; pointer-events: none;`;
-    //     redrawArrows(null, arrows.value);
-    // }
+        if (arrows.list.length > 0) {
+            arrows.list.forEach((el) => {
+                if (item.val.id == el.firstItem || item.val.id == el.secondItem) {
+                    arrows.pushArrow(el);
+                }
+            });
+        }
+    }
 }
 
 function modalAction(content) {
@@ -183,65 +179,10 @@ function hoverFocusedItem(id) {
 function blurFocusedItem() {
     document.querySelectorAll(".todo__item").forEach((el) => el.classList.remove("hover"));
 }
-
-// <!-- ? Dop functions -->
-
-// function setKeyListener() {
-//     document.addEventListener("keydown", (event) => {
-//         if(event.key === "Delete" ) {
-//             if(arrowObject.value) {
-//                 arrows.value.forEach((el, index) => {
-//                     if(el.id === arrowObject.value.getAttribute("arrow-id")) {
-//                         console.log("123")
-//                         arrows.value.splice(index, 1);
-//                     }
-
-//                     document.getElementById("area").innerHTML = '';
-//                     arrows.value.forEach((el) => {
-//                         setArrows(el, getItemInDocById(el.firstItem), getItemInDocById(el.secondItem));
-//                     });
-
-//                     if(!arrows.value.length) {
-//                         document.getElementById("area").innerHTML = '';
-//                     }
-//                 })
-//             }
-//         }
-//     })
-// }
-
-// onMounted(() => {
-//     let area = document.getElementById("area");
-
-//     area.setAttribute("width", window.innerWidth);
-//     area.setAttribute("height", window.innerHeight);
-
-//     area.addEventListener("click", (event) => {
-//         if(event.target.closest(".arrow__line") !== null) {
-//             arrowObject.value = event.target.closest(".arrow__line");
-//             event.target.closest(".arrow__line").classList.add("focused");
-//         }else{
-//             arrowObject.value = null;
-//         }
-//     })
-
-//     arrows.value.forEach((el) => {
-//         setArrows(el, getItemInDocById(el.firstItem), getItemInDocById(el.secondItem));
-//     });
-
-//     window.addEventListener("resize", () => {
-//         arrows.value.forEach((el) => {
-//             setArrows(el, getItemInDocById(el.firstItem), getItemInDocById(el.secondItem));
-//         });
-//     });
-
-//     setKeyListener();
-// });
-
 onMounted(() => {
-    window.oncontextmenu = function () {
-        return false;
-    };
+    // window.oncontextmenu = function () {
+    //     return false;
+    // };
 });
 </script>
 

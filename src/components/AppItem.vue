@@ -29,12 +29,14 @@
                 >
                     <ul class="list">
                         <li class="list__item">
-                            <app-button type="button">
+                            <app-button
+                                type="button"
+                                @click="$emit('arrow:add')"
+                            >
                                 <!-- @click="arrowModeSetter" -->
                                 <span
                                     class="i-expand-from-corner"
                                     style="transform: translateY(-2px)"
-                                    @click="$emit('arrow:add')"
                                 ></span>
                             </app-button>
                         </li>
@@ -62,12 +64,7 @@
                         <li class="list__item">
                             <app-button
                                 type="button"
-                                @click="
-                                    $emit(
-                                        'modal:removeMessage',
-                                        removeItemMessage
-                                    )
-                                "
+                                @click="$emit('modal:removeMessage', removeItemMessage)"
                             >
                                 <span class="i-trash-alt"></span>
                             </app-button>
@@ -99,21 +96,9 @@
                         <app-todo-list
                             v-else
                             :content="todo.val.text.list[n - 1]"
-                            @item:changeStatus="
-                                (value) =>
-                                    todo.val.text.changeCheckItemStatus(
-                                        value,
-                                        n - 1
-                                    )
-                            "
-                            @item:addCheckItem="
-                                (value) =>
-                                    todo.val.text.addNewCheckItem(value, n - 1)
-                            "
-                            @item:removeCheckItem="
-                                (value) =>
-                                    todo.val.text.removeCheckItem(value, n - 1)
-                            "
+                            @item:changeStatus="(value) => todo.val.text.changeCheckItemStatus(value, n - 1)"
+                            @item:addCheckItem="(value) => todo.val.text.addNewCheckItem(value, n - 1)"
+                            @item:removeCheckItem="(value) => todo.val.text.removeCheckItem(value, n - 1)"
                             @input:blur="() => todo.val.text.removeFocus(n - 1)"
                         />
                         <!-- @todo:changeStatus="changeStatusTodoItem"

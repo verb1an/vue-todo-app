@@ -1,9 +1,24 @@
 <template>
     <div class="arrows__wrapper">
+        <svg>
+            <defs>
+                <marker
+                    id="arrowhead"
+                    markerWidth="5"
+                    markerHeight="4"
+                    refX="5"
+                    refY="2"
+                    orient="auto"
+                    fill="#fff"
+                >
+                    <polygon points="0 0, 5 2, 0 4" />
+                </marker>
+            </defs>
+        </svg>
         <svg
             id="area"
             ref="area"
-            :class="arrowsList.arrowMode ? 'arrow__mode' : ''"
+            :class="arrowsList.arrowMode == true ? 'arrow__mode' : ''"
         ></svg>
     </div>
 </template>
@@ -30,7 +45,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #area {
     position: absolute;
     top: 0;
@@ -41,7 +56,6 @@ onMounted(() => {
     z-index: 0;
 
     g {
-        cursor: pointer;
         fill: rgba(255, 255, 255, 0.7);
         transition: fill 0.12s ease-in;
         .line__main {
@@ -49,11 +63,15 @@ onMounted(() => {
             transition: fill 0.12s ease-in;
         }
 
-        &.focused {
+        // &.focused {
+        //     fill: red;
+        //     .line__main {
+        //         stroke: red;
+        //     }
+        // }
+
+        &:hover {
             fill: red;
-            .line__main {
-                stroke: red;
-            }
         }
     }
 

@@ -16,6 +16,10 @@
 
         max-height: 600px;
         overflow-y: auto;
+
+        &:hover {
+            border: 1px solid #7253A4;
+        }
     }
 
     .text {
@@ -179,7 +183,7 @@
 
     &[menu-type="menu-right-bottom"] {
         .todo__item_menu {
-            top: -35px;
+            top: 35px;
             right: 35px;
             transform: translate(100%, 100%) rotate(90deg);
 
@@ -203,7 +207,7 @@
 
     &[menu-type="menu-left-bottom"] {
         .todo__item_menu {
-            top: -35px;
+            top: 35px;
             left: 35px;
             transform: translate(-100%, 100%) rotate(-180deg);
 
